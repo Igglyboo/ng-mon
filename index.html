@@ -4,46 +4,50 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>PokeApi Viewer</title>
-
+    <title>ng-mon</title>
     <link rel="stylesheet" href="css/reset.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script src="js/pokeapi.js"></script>
-    <style>
-        body{
-            overflow-y: scroll;
-        }
-
-        img.pokemon{
-            width: 50px;
-            height: 50px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/ng-mon.css"/>
+    <script src="js/angular.min.js"></script>
+    <script src="js/ng-mon.js"></script>
 </head>
 <body ng-app="Pokemon">
     <div ng-controller="PokemonController" class="container">
         <div class="row">
-            <form class="form-signin form-inline" role="form">
-                <h2 class="form-signin-heading">Search for Pokemon</h2>
-                <input ng-model="searchQuery" type="text" class="form-control" id="search" placeholder="">
+            <form role="form">
+                <h3>Search for Pokemon</h3>
+                <input ng-model="searchQuery" ng-disabled="!activePokemon.length" type="text" class="form-control" id="search" placeholder="">
             </form>
         </div>
-        <div class="row" ng-repeat="_ in range(0, activePokemon.length - 12, 12)">
-            <div class="col-xs-1" ng-repeat="pokemon in activePokemon | limitTo: _ + 12| limitTo: -12">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <img class="pokemon" src="http://pokeapi.co/media/img/{{pokemon.id}}.png"/>
+        <div ng-repeat="n in [0, 6, 12, 18, 24]" class="row">
+            <div ng-repeat="pokemon in activePokemon.slice(n + (currentPage * 30), n + (currentPage * 30) + 6) track by pokemon.id" class="col-xs-2" >
+                <div class="pokemon">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <img ng-src="{{pokemon.img}}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>#{{pokemon.id}} {{pokemon.name}}</label>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <label style="font-size: 11px">{{pokemon.name}}</label>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                    <ul class="pagination" ng-if="parseInt(activePokemon.length / 30 + 1) > 1">
+                        <li ng-click="$parent.currentPage = $parent.currentPage !== 0 ? $parent.currentPage - 1 : parseInt(activePokemon.length / 30)">
+                            <span href>&laquo;</span>
+                        </li>
+                        <li ng-repeat="n in range(parseInt(activePokemon.length / 30 + 1)) track by $index" ng-click="$parent.$parent.currentPage = $index">
+                            <span ng-class="$index === $parent.$parent.currentPage ? 'active' : ''">{{$index + 1}}</span>
+                        </li>
+                        <li ng-click="$parent.currentPage = $parent.currentPage !== parseInt(activePokemon.length / 30) ? $parent.currentPage + 1 : 0">
+                            <span href>&raquo;</span>
+                        </li>
+                    </ul>
             </div>
         </div>
     </div>

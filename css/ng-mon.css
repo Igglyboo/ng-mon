@@ -1,0 +1,23 @@
+body{
+ overflow: hidden;
+}
+
+.pokemon img{
+    width: 100px;
+    height: 100px;
+}
+
+.pokemon label{
+    width: 100px;
+    font-size: 11px;
+    text-align: center;
+    text-wrap: none;
+}
+
+.pagination>li>span{
+    cursor:pointer;
+}
+
+.pagination>li>span.active{
+    background-color: #eeeeee;
+}
