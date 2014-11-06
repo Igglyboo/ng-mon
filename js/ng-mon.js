@@ -9,6 +9,7 @@ angular.module("Pokemon", []).controller("PokemonController",
         $scope.allPokemon = [];
         $scope.truncateNameIds = [386, 413, 487, 492, 550, 555, 641, 642, 645, 647, 648, 678, 710, 711];
         $scope.currentPage = 0;
+        $scope.ready = false;
 
         $scope.$watch('searchQuery', function(searchQuery){
             $scope.currentPage = 0;
@@ -37,6 +38,7 @@ angular.module("Pokemon", []).controller("PokemonController",
             });
 
             $scope.activePokemon = $scope.allPokemon;
+            $scope.ready = true;
         });
     }
 );

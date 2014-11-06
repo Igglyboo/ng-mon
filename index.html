@@ -16,7 +16,7 @@
         <div class="row">
             <form role="form">
                 <h3>Search for Pokemon</h3>
-                <input ng-model="searchQuery" ng-disabled="!activePokemon.length" type="text" class="form-control" id="search" placeholder="">
+                <input ng-model="searchQuery" ng-disabled="!ready" type="text" class="form-control" id="search" placeholder="">
             </form>
         </div>
         <div ng-repeat="n in [0, 6, 12, 18, 24]" class="row">
